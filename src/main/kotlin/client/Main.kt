@@ -27,8 +27,6 @@ fun main() {
         try {
             writer.write(turnOffDsPacket)
             writer.flush()
-            writer.newLine()
-            writer.flush()
             println("sent turnOffDsPacket")
             sleep(3000)
         } catch (e: SocketException) {

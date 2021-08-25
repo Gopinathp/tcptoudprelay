@@ -30,6 +30,7 @@ class TcpSocketHandler(private val tcpSocket: Socket) {
                     val msg = String(bytes, Charset.forName("ISO-8859-1"))
                     println("Upstream sent $msg from $UPSTREAM_UDP_ADDRESS:$UPSTREAM_UDP_PORT")
                     writer.write(msg)
+                    writer.newLine()
                     writer.flush()
                     println("Sent to Tcp Client")
                 }
