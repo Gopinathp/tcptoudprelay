@@ -1,6 +1,7 @@
 package server
 
 import logStacktrace
+import java.io.DataOutputStream
 import java.net.*
 import java.nio.charset.Charset
 import kotlin.concurrent.thread
@@ -23,14 +24,13 @@ class TcpSocketHandler(private val tcpSocket: Socket) {
             try {
                 val d = ByteArray(30 * 1024)
                 val p = DatagramPacket(d, d.size)
-                val writer = tcpSocket.getOutputStream().bufferedWriter()
+                val writer = DataOutputStream(tcpSocket.getOutputStream())
                 while (true) {
                     upstreamSocket.receive(p)
                     val bytes: ByteArray = d.copyOfRange(0, p.length)
-                    val msg = String(bytes, Charset.forName("ISO-8859-1"))
+                    val msg = String(bytes, Charset.defaultCharset())
                     println("Upstream sent $msg from $UPSTREAM_UDP_ADDRESS:$UPSTREAM_UDP_PORT")
-                    writer.write(msg)
-                    writer.newLine()
+                    writer.write(bytes)
                     writer.flush()
                     println("Sent to Tcp Client")
                 }
