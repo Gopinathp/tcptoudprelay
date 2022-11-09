@@ -25,6 +25,7 @@ object TcpServer {
     fun listen() {
         while (true) {
             val socket = serverSocket.accept()
+            socket.keepAlive = true
             println("Received a new socket ${socket.port} ${socket.inetAddress.hostAddress}")
             TcpSocketHandler(socket)
         }
